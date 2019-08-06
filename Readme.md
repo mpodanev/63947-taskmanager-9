@@ -1,7 +1,7 @@
 # Личный проект «Менеджер задач» [![Build status][travis-image]][travis-url]
 
 * Студент: [Михаил  Поданев](https://up.htmlacademy.ru/ecmascript/9/user/63947).
-* Наставник: `Неизвестно`.
+* Наставник: [Михаил  Поданев](https://up.htmlacademy.ru/ecmascript/9/user/63947).
 
 ---
 
