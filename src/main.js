@@ -1,21 +1,32 @@
-import {controlBtnWrap} from './components/controlBtnWrap';
-import {mainSearch} from './components/mainSearch';
-import {mainFilter} from './components/mainFilter';
-import {board} from './components/board';
+import {controlBtnWrap as createControlBtnWrapTemplate} from './components/controlBtnWrapTemplate';
+import {mainSearch as createMainSearchTemplate} from './components/mainSearchTemplate';
+import {mainFilter as createMainFilterTemplate} from './components/mainFilterTemplate';
+import {board as createBoardTemplate} from './components/boardTemplate';
 
-import {boardFilterList} from './components/boardFilterList';
-import {createTask} from './components/task';
-import {loadMoreBtn} from './components/loadMoreBtn';
+import {boardFilterList as createBoardFilterList} from './components/boardFilterListTemplate';
+import {createTaskEditTemplate} from './components/taskEditTemplate';
+import {createTask as createTaskTemplate} from './components/taskTemplate';
+import {loadMoreBtn as createLoadMoreBtnTemplate} from './components/loadMoreBtnTemplate';
 
-const main = document.querySelector(`.main`);
-const mainControl = document.querySelector(`.main__control`);
+const mainElement = document.querySelector(`.main`);
+const mainControlElement = document.querySelector(`.main__control`);
 
 const render = (container, element, position) => {
   container.insertAdjacentHTML(position, element);
 };
 
-render(mainControl, controlBtnWrap(), `beforeend`);
-render(main, mainSearch(), `beforeend`);
-render(main, mainFilter(), `beforeend`);
-render(main, board(), `beforeend`);
+render(mainControlElement, createControlBtnWrapTemplate(), `beforeend`);
+render(mainElement, createMainSearchTemplate(), `beforeend`);
+render(mainElement, createMainFilterTemplate(), `beforeend`);
+render(mainElement, createBoardTemplate(), `beforeend`);
+
+const boardElement = document.querySelector(`.board`);
+const boardTasksElement = document.querySelector(`.board__tasks`);
+
+render(boardElement, createBoardFilterList(), `afterbegin`);
+render(boardTasksElement, createTaskEditTemplate(), `beforeend`);
+
+new Array(3).fill(``).forEach(() => render(boardTasksElement, createTaskTemplate(), `beforeend`));
+
+render(boardElement, createLoadMoreBtnTemplate(), `beforeend`);
 
