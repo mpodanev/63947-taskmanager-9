@@ -1,4 +1,4 @@
-export const getTaskData = () => ({
+export const getTask = () => ({
   description: [
     `Изучить теорию`,
     `Сделать домашку`,
