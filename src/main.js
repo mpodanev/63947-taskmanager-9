@@ -55,6 +55,15 @@ const renderTask = (taskMock) => {
       document.removeEventListener(`keydown`, onEscKeyDown);
     });
 
+  taskEdit.getElement().querySelector(`.card__delete`)
+    .addEventListener(`click`, () => {
+      unrender(task._element);
+      unrender(taskEdit._element);
+      task.removeElement();
+      taskEdit.removeElement();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    });
+
   render(tasksContainer, task.getElement(), `beforeend`);
 };
 

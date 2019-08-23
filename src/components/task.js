@@ -75,4 +75,8 @@ export default class Task {
     </div>
   </article>`;
   }
+
+  removeElement() {
+    this._element = null;
+  }
 }

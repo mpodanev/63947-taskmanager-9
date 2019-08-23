@@ -260,4 +260,8 @@ export default class TaskEdit {
       </form>
     </article>`;
   }
+
+  removeElement() {
+    this._element = null;
+  }
 }
