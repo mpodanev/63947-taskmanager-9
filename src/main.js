@@ -62,6 +62,14 @@ const renderTask = (taskMock) => {
       task.removeElement();
       taskEdit.removeElement();
       document.removeEventListener(`keydown`, onEscKeyDown);
+
+      if (tasksContainer.childElementCount === 0) {
+        const noTasksElement = createElement(`<p class="board__no-tasks">
+            Congratulations, all tasks were completed! To create a new click on
+            «add new task» button.
+          </p>`);
+        render(tasksContainer, noTasksElement, `beforeend`);
+      }
     });
 
   render(tasksContainer, task.getElement(), `beforeend`);
