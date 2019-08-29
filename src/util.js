@@ -1,4 +1,4 @@
-const Position = {
+export const Position = {
   AFTERBEGIN: `afterbegin`,
   BEFOREEND: `beforeend`
 };
@@ -26,4 +26,9 @@ export const unrender = (element) => {
   if (element) {
     element.remove();
   }
+};
+
+export const Key = {
+  ESCAPE_IE: `Escape`,
+  ESCAPE: `Esc`,
 };
