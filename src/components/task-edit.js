@@ -1,21 +1,13 @@
-import {createElement} from '../util';
+import AbstractComponent from './abstract-component';
 
-export default class TaskEdit {
+export default class TaskEdit extends AbstractComponent {
   constructor({description, dueDate, tags, color, repeatingDays}) {
+    super();
     this._description = description;
     this._dueDate = new Date(dueDate);
     this._tags = tags;
     this._color = color;
-    this._element = null;
     this._repeatingDays = repeatingDays;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
   }
 
   getTemplate() {
@@ -259,9 +251,5 @@ export default class TaskEdit {
         </div>
       </form>
     </article>`;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

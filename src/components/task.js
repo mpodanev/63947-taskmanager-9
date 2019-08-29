@@ -1,23 +1,15 @@
-import {createElement} from '../util';
+import AbstractComponent from './abstract-component';
 
-export default class Task {
+export default class Task extends AbstractComponent {
   constructor({description, dueDate, tags, color, repeatingDays, isArchive, isFavorite}) {
+    super();
     this._description = description;
     this._dueDate = new Date(dueDate);
     this._tags = tags;
     this._color = color;
-    this._element = null;
     this._repeatingDays = repeatingDays;
     this._isArchive = isArchive;
     this._isFavorite = isFavorite;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
   }
 
   getTemplate() {
@@ -74,9 +66,5 @@ export default class Task {
       </div>
     </div>
   </article>`;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
