@@ -4,7 +4,7 @@ import {createElement, render, unrender, Position, Key} from '../util';
 import Task from '../components/task';
 import TaskEdit from '../components/task-edit';
 import Sort from '../components/sort';
-import LoadMoreBtn from '../components/loadMoreBtn';
+import LoadMoreBtn from '../components/load-more-btn';
 
 export default class BoardController {
   constructor(container, tasks) {
