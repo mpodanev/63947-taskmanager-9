@@ -5,6 +5,7 @@ import Task from '../components/task';
 import TaskEdit from '../components/task-edit';
 import Sort from '../components/sort';
 import LoadMoreBtn from '../components/load-more-btn';
+import TaskController from '../controllers/task';
 
 export default class BoardController {
   constructor(container, tasks) {
@@ -14,6 +15,10 @@ export default class BoardController {
     this._sort = new Sort();
     this._taskList = new TaskList();
     this._loadMoreBtn = new LoadMoreBtn();
+
+    this._subscriptions = [];
+    this._onChangeView = this._onChangeView.bind(this);
+    this._onDataChange = this._onDataChange.bind(this);
   }
 
   init() {
@@ -30,58 +35,35 @@ export default class BoardController {
     this._loadMoreBtn.getElement().addEventListener(`click`, this._onLoadMoreClick.bind(this));
   }
 
+  _renderBoard() {
+    unrender(this._taskList.getElement());
+    this._taskList.removeElement();
+
+    render(this._board.getElement(), this._taskList.getElement(), Position.BEFOREEND);
+    this._tasks.forEach((taskMock) => this._renderTask(taskMock));
+  }
+
   _renderTask(task) {
-    const taskComponent = new Task(task);
-    const taskEditComponent = new TaskEdit(task);
+    const taskController = new TaskController(this._taskList, task, this._onDataChange, this._onChangeView);
+    this._subscriptions.push(taskController.setDefaultView.bind(taskController));
+  }
 
-    const onEscKeyDown = (evt) => {
-      if (evt.key === Key.ESCAPE || evt.key === Key.ESCAPE_IE) {
-        this._taskList.getElement().replaceChild(taskComponent.getElement(), taskEditComponent.getElement());
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      }
-    };
+  _onChangeView() {
+    this._subscriptions.forEach((it) => it());
+  }
 
-    taskComponent.getElement().querySelector(`.card__btn--edit`)
-      .addEventListener(`click`, () => {
-        this._taskList.getElement().replaceChild(taskEditComponent.getElement(), taskComponent.getElement());
-        document.addEventListener(`keydown`, onEscKeyDown);
-      });
+  _onDataChange(newData, oldData, oldTask) {
+    this._tasks[this._tasks.findIndex((it) => it === oldData)] = newData;
 
-    taskEditComponent.getElement().querySelector(`textarea`)
-      .addEventListener(`focus`, () => {
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      });
 
-    taskEditComponent.getElement().querySelector(`textarea`)
-      .addEventListener(`blur`, () => {
-        document.addEventListener(`keydown`, onEscKeyDown);
-      });
+    const newTask = new Task(newData);
+    this._taskList.getElement().replaceChild(newTask.getElement(), oldTask.getElement());
 
-    taskEditComponent.getElement()
-      .querySelector(`.card__save`)
-      .addEventListener(`click`, () => {
-        this._taskList.getElement().replaceChild(taskComponent.getElement(), taskEditComponent.getElement());
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      });
 
-    taskEditComponent.getElement().querySelector(`.card__delete`)
-      .addEventListener(`click`, () => {
-        unrender(taskComponent._element);
-        unrender(taskEditComponent._element);
-        taskComponent.removeElement();
-        taskEditComponent.removeElement();
-        document.removeEventListener(`keydown`, onEscKeyDown);
 
-        if (this._taskList.getElement().childElementCount === 0) {
-          const noTasksElement = createElement(`<p class="board__no-tasks">
-              Congratulations, all tasks were completed! To create a new click on
-              «add new task» button.
-            </p>`);
-          render(this._taskList.getElement(), noTasksElement, Position.BEFOREEND);
-        }
-      });
+    // this._tasks[this._tasks.findIndex((it) => it === oldData)] = newData;
+    // this._renderBoard();
 
-    render(this._taskList.getElement(), taskComponent.getElement(), Position.BEFOREEND);
   }
 
   _onSortLinkClick(evt) {
