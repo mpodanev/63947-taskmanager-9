@@ -1,8 +1,6 @@
 import Board from '../components/board';
 import TaskList from '../components/task-list';
-import {createElement, render, unrender, Position, Key} from '../util';
-import Task from '../components/task';
-import TaskEdit from '../components/task-edit';
+import {render, unrender, Position} from '../util';
 import Sort from '../components/sort';
 import LoadMoreBtn from '../components/load-more-btn';
 import TaskController from '../controllers/task';
