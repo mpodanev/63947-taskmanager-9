@@ -38,9 +38,14 @@ export default class BoardController {
   _renderBoard() {
     unrender(this._taskList.getElement());
     this._taskList.removeElement();
+    unrender(this._loadMoreBtn.getElement());
+    this._loadMoreBtn.removeElement();
 
     render(this._board.getElement(), this._taskList.getElement(), Position.BEFOREEND);
     this._tasks.forEach((taskMock) => this._renderTask(taskMock));
+
+    render(this._board.getElement(), this._loadMoreBtn.getElement(), Position.BEFOREEND);
+    this._loadMoreBtn.getElement().addEventListener(`click`, this._onLoadMoreClick.bind(this));
   }
 
   _renderTask(task) {
@@ -52,18 +57,9 @@ export default class BoardController {
     this._subscriptions.forEach((it) => it());
   }
 
-  _onDataChange(newData, oldData, oldTask) {
+  _onDataChange(newData, oldData) {
     this._tasks[this._tasks.findIndex((it) => it === oldData)] = newData;
-
-
-    const newTask = new Task(newData);
-    this._taskList.getElement().replaceChild(newTask.getElement(), oldTask.getElement());
-
-
-
-    // this._tasks[this._tasks.findIndex((it) => it === oldData)] = newData;
-    // this._renderBoard();
-
+    this._renderBoard();
   }
 
   _onSortLinkClick(evt) {

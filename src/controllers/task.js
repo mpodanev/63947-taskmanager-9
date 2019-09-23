@@ -74,7 +74,7 @@ export default class TaskController {
           }),
         };
 
-        this._onDataChange(entry, this._data, this._taskEdit);
+        this._onDataChange(entry, this._data);
 
         document.removeEventListener(`keydown`, onEscKeyDown);
       });
